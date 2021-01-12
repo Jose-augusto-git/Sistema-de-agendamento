@@ -1,9 +1,8 @@
-<?php 
+<?php
 $servidor = "localhost";
 $usuario = "root";
 $senha = "";
-$dbname = "crud";
+$dbname = "sistema";
 
-//criar conexao
-
+//Criar a conexao
 $conn = mysqli_connect($servidor, $usuario, $senha, $dbname);

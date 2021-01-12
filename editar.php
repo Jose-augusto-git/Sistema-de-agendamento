@@ -1,8 +1,11 @@
 <?php
 session_start();
+include_once("conexao.php");
+$id = filter_input(INPUT_GET, 'id', FILTER_SANITIZE_NUMBER_INT);
+$result_usuario = "SELECT * FROM sistema WHERE id = '$id'";
+$resultado_usuario = mysqli_query($conn, $result_usuario);
+$row_usuario = mysqli_fetch_assoc($resultado_usuario);
 ?>
-
-
 
 <!DOCTYPE html>
 <html lang="pt_br">
@@ -12,8 +15,8 @@ session_start();
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="theme-color" content="#8257E5">
-    <title> NewLife | Adicionar Medicamentos</title>
-    <link rel="icon" href="imagem/prescricao-medica.svg" />
+    <title>NewLife | Editar Medicamentos</title>
+    <link rel="icon" href="imagem/arquivo-medicos.svg" />
     <link rel="shoutcut icon" href="images/favicon.png" type="image/png">
 
 
@@ -130,11 +133,11 @@ session_start();
             </div>
             <div id="imagem">
                 <?php
-                echo "<img src='imagem/remedios.svg' alt='remedios'> ";
+                echo "<img src='imagem/relatorio-medico.svg' alt='remedios'> ";
                 ?>
             </div>
             <div class="header-content">
-                <strong style='max-width: 1000px;'>Adicionar novos medicamentos </strong>
+                <strong style='max-width: 1000px;'>Editar Medicamentos </strong>
                 <!--strong vem com a fonte em negrito-->
                 <p style='color:#ff637b; font-size:2.5rem'>Preencha todos os campos</p>
                 <?php
@@ -146,53 +149,67 @@ session_start();
 
         </header>
         <main>
-            <form class="form" action="bd-medicamento.php" method="POST" id="create-class">
-       
-                <fieldset>
-                    <legend> Cadastro de Medicamento </legend>
-                    <!--todo fieldset precisa de um ledend e o legend e uma agrupamento de dados-->
+        <form class="form" action="proc_edit_usuario.php" method="POST"id="create-class" >
+                    
+                    <fieldset>
+                        <legend> Editar Medicamentos </legend><!--todo fieldset precisa de um ledend e o legend e uma agrupamento de dados-->
+                    
+                        <input type="hidden" name="id"value="<?php 
+                        echo $row_usuario['id'];
+                        
+                        ?>" required>                                   
                     <div class="input-block">
-                        <label for="medicamentos"> Medicamento </label>
-                        <input name="medicamentos" id="medicamentos" required>
-                    </div>
-
-                    <div class="select-block">
-
-                    <div class="input-block">
-                    <label for="abreviacao"> Abreviação </label>
-                    <input name="abreviacao" id="abreviacao" required>
+                        <label for="medicamentos"> Medicamento</label>                       
+                        <input name="medicamentos" id="medicamentos" value="<?php 
+                        echo $row_usuario['medicamentos'];                           
+                        ?>" required>           
                     </div>
                     <div class="input-block">
-                    <label for="latim"> Latim </label>
-                    <input name="latim" id="latim" required>
+                        <label for="abreviacao"> Abreviaçao </label>
+                        <input name="abreviacao" id="abreviacao" value="<?php 
+                        echo $row_usuario['abreviacao'];
+                        
+                        ?>" required>
                     </div>
- 
-                        <div class="input-block">
-                            <label for="fonte"> Fonte </label>
-                            <input name="fonte" id="fonte" required>
-                        </div>
-
-
-                        <div class="textarea-block">
-                            <label for="principal"> Principais </label>
-                            <textarea name="principal" id="principal" required></textarea>
-                        </div>
-
-                </fieldset>
-
-            </form>
-            <footer>
-                <p>
-                    <?php
-                    echo "<img src='imagem/atencao.svg' alt='Aviso importante' width='60px'>";
-                    ?>
-
-                    Importante! <br>
-                    Preencha todos os dados
-                </p>
-                <button type="submit" form="create-class" value="cadastro">Salvar</button><!-- form="create-class" envia o formulario sem precisar estar dento da tag form-->
-            </footer>
-        </main>
+                    <div class="input-block">
+                        <label for="latim"> Latim </label>
+                        <input name="latim" id="latim" value="<?php 
+                        echo $row_usuario['latim'];
+                        
+                        ?>" required>
+                    </div>
+                    
+                    <div class="input-block">
+                        <label for="fonte"> Fonte</label>
+                        <input name="fonte" 
+                        value="<?php 
+                        echo $row_usuario['fonte'];
+                        
+                        ?>"                            
+                        required>
+                    </div>
+                    
+                    <div class="textarea-block">
+                    <label for="principal"> Principais</label>
+                        <textarea  name="principal" required ><?php 
+                        echo $row_usuario['principal'];
+                        
+                        ?></textarea>
+                    </div>
+                    </fieldset>     
+               </form>
+               <footer>
+                   <p>
+                       <?php
+                        echo "<img src='imagem/aviso.svg' alt='Aviso importante' width='60px'>";
+                       ?>
+                       
+                       Importante! <br>
+                       Preencha todos os dados
+                   </p>
+                   <button type="submit" form="create-class" value="Editar">Salvar Edição</button><!-- form="create-class" envia o formulario sem precisar estar dento da tag form-->
+               </footer>
+            </main>
     </div>
 
 </body>
